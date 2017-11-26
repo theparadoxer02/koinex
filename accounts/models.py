@@ -48,9 +48,9 @@ class KYC(models.Model):
 
 	def save(self, *args, **kwargs):
 		if self.Account.valid is False:
-			raise ValidationError('The User is not Verified yet')
+			raise forms.ValidationError('The User is not Verified yet')
 		else:
-			super(KYC, self).save(*args, **kwargs)
+			super(KYC_Document, self).save(*args, **kwargs)
 
 
 class KYC_Document(models.Model):
@@ -84,3 +84,9 @@ class BankDetail(models.Model):
 
 	def __str__(self):
 		return str(self.Account)
+
+	def save(self, *args, **kwargs):
+		if self.Account.valid is False:
+			raise forms.ValidationError('The User is not Verified yet')
+		else:
+			super(KYC_Document, self).save(*args, **kwargs)
