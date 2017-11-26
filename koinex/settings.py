@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'koinex.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'koinex',
+        'NAME': 'temp',
         'USER': 'abhi',
         'PASSWORD': 'temp',
         'HOST': 'localhost',

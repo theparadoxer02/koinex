@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from accounts.models import Account, KYC, KYC_Documents, BankDetails
+from accounts.models import Account, KYC, KYC_Document, BankDetail
 
 class AccountSerializer(serializers.ModelSerializer):
 	class Meta:
@@ -39,7 +39,7 @@ class KYCSerializer(serializers.ModelSerializer):
 
 class KYC_DocumentSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = KYC_Documents
+		model = KYC_Document
 		fields = [
 			'Account',
 			'pan_card',
@@ -52,7 +52,7 @@ class KYC_DocumentSerializer(serializers.ModelSerializer):
 
 class BankDetailSerializer(serializers.ModelSerializer):
 	class Meta:
-		model = BankDetails
+		model = BankDetail
 		fields = [
 			'Account',
 			'ifsc_code',

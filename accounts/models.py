@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 
 
 class Account(models.Model):
@@ -16,6 +17,10 @@ class Account(models.Model):
 	asknbid_id = models.CharField(max_length=30, unique=True, null=True)
 	account_status = models.CharField(max_length=20, choices=status_option)
 	accont_created_on = models.DateField(auto_now=True, auto_now_add=False)
+	valid = models.BooleanField(default=False)
+
+	def __str__(self):
+		return self.first_name
 
 class KYC(models.Model):
 	kyc_status = (
@@ -38,14 +43,32 @@ class KYC(models.Model):
 	kyc_status = models.CharField(max_length=30, choices=kyc_status)
 	valid = models.BooleanField(default=False)
 
+	def __str__(self):
+		return self.full_name
 
-class KYC_Documents(models.Model):
+	def save(self, *args, **kwargs):
+		if self.Account.valid is False:
+			raise ValidationError('The User is not Verified yet')
+		else:
+			super(KYC, self).save(*args, **kwargs)
+
+
+class KYC_Document(models.Model):
 	Account = models.ForeignKey(Account, on_delete=models.CASCADE)
 	pan_card = models.ImageField(upload_to='media/upload/pancard')
 	adhaar_card = models.ImageField(upload_to='media/upload/adhaarcard')
 	adhaar_back = models.ImageField(upload_to='media/upload/adhaarback')
 	photograph = models.ImageField(upload_to='media/upload/photograph')
 	valid = models.BooleanField(default=False)
+
+	def __str__(self):
+		return str(self.Account)
+
+	def save(self, *args, **kwargs):
+		if self.Account.valid is False:
+			raise forms.ValidationError('The User is not Verified yet')
+		else:
+			super(KYC_Document, self).save(*args, **kwargs)
 
 
 class BankDetail(models.Model):
@@ -58,3 +81,6 @@ class BankDetail(models.Model):
 	activity = models.TextField()
 	status = models.BooleanField(default=False)
 	valid = models.BooleanField(default=False)
+
+	def __str__(self):
+		return str(self.Account)
