@@ -11,7 +11,7 @@ class Account(models.Model):
 	)
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	first_name = models.CharField(max_length=40, default='', null=False)
-	first_name = models.CharField(max_length=40, default='', null=False)
+	last_name = models.CharField(max_length=40, default='', null=False)
 	email = models.EmailField(null=False, max_length=254)
 	asknbid_id = models.CharField(max_length=30, unique=True, null=True)
 	account_status = models.CharField(max_length=20, choices=status_option)
@@ -48,7 +48,7 @@ class KYC_Documents(models.Model):
 	valid = models.BooleanField(default=False)
 
 
-class BankDetails(models.Model):
+class BankDetail(models.Model):
 	Account = models.ForeignKey(Account, on_delete=models.CASCADE)
 	ifsc_code = models.CharField(max_length=10, default='', null=False)
 	time = models.TimeField(auto_now=False, auto_now_add=True)
